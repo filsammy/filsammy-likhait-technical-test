@@ -1,6 +1,7 @@
 class Api::ExpensesController < ApplicationController
   def index
-    expenses = Expense.includes(:category).order(created_at: :desc)
+    # Change the ordering from created_at to the NEW date column
+    expenses = Expense.includes(:category).order(date: :desc, created_at: :desc)
 
     if params[:year].present? && params[:month].present?
       year = params[:year].to_i
@@ -53,7 +54,7 @@ class Api::ExpensesController < ApplicationController
       description: expense.description,
       amount: expense.amount.to_f,
       category: expense.category&.name, # Safe navigation operator
-      date: expense.created_at.to_date.to_s, # Use created_at instead of date
+      date: expense.date.to_s, # Returns the real date column now
       created_at: expense.created_at,
       updated_at: expense.updated_at
     }
