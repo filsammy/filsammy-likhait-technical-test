@@ -18,7 +18,8 @@ class Api::ExpensesController < ApplicationController
   end
 
   def create
-    expense = Expense.new(expense_params)
+    # We take the params and merge in a default payer_name to satisfy the database constraint.
+    expense = Expense.new(expense_params.merge(payer_name: "Fil Sammy"))
 
     if expense.save
       render json: format_expense(expense), status: :created
