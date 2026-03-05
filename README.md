@@ -200,3 +200,15 @@ SECRET_KEY_BASE=$(rails secret)
 ---
 
 **Built with Ruby on Rails + React + TypeScript**
+
+---
+
+## 📝 Developer Notes (Fil Sammy)
+
+### Environment Setup
+
+If running on Windows, ensure all files in `backend/bin/` are saved with **LF** line endings. The Docker configuration has been updated to handle gem execution via `bundle exec` to prevent "command not found" errors.
+
+### Database Decisions
+
+The provided schema does not include a dedicated `date` column for Expenses. Based on the existing index `idx_created_at` in `schema.rb`, I have utilized `created_at` as the source of truth for expense dates across the API and seed files.
