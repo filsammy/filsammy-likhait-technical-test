@@ -145,7 +145,7 @@ while current_date <= end_date
         description: template[:description],
         amount: amount,
         category: category,
-        date: current_date,
+        payer_name: "Fil Sammy", # Added because schema says null: false
         created_at: current_date,
         updated_at: current_date
       )
