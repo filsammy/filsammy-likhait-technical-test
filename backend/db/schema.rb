@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_18_000002) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_05_140828) do
   create_table "categories", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", limit: 100, null: false
     t.timestamp "created_at", default: -> { "CURRENT_TIMESTAMP" }
@@ -27,6 +27,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_18_000002) do
     t.string "payer_name", limit: 100, null: false
     t.timestamp "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.timestamp "updated_at", default: -> { "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" }
+    t.date "date", null: false
     t.index ["category_id"], name: "idx_category_id"
     t.index ["created_at"], name: "idx_created_at"
   end
