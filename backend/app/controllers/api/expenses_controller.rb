@@ -52,8 +52,8 @@ class Api::ExpensesController < ApplicationController
       id: expense.id,
       description: expense.description,
       amount: expense.amount.to_f,
-      category: expense.category.name,
-      date: expense.date.to_s,
+      category: expense.category&.name, # Safe navigation operator
+      date: expense.created_at.to_date.to_s, # Use created_at instead of date
       created_at: expense.created_at,
       updated_at: expense.updated_at
     }
