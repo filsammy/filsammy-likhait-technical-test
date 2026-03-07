@@ -146,6 +146,7 @@ while current_date <= end_date
         amount: amount,
         category: category,
         payer_name: "Fil Sammy", # Added because schema says null: false
+        date: current_date,
         created_at: current_date,
         updated_at: current_date
       )

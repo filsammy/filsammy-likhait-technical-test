@@ -87,6 +87,7 @@ export function ExpenseForm({
         error={errors.date}
         fullWidth
         required
+        max={new Date().toLocaleDateString('en-CA')} // format YYYY-MM-DD
       />
 
       <div style={buttonGroupStyle}>

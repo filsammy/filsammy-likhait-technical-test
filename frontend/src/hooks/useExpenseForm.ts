@@ -47,6 +47,20 @@ export function useExpenseForm({ initialData, onSubmit }: UseExpenseFormProps) {
 
     if (!formData.date) {
       newErrors.date = "Date is required";
+    } else {
+      // Validate that the date is not in the future
+      const selectedDate = new Date(formData.date);
+      // We set current date hours to 0 to only compare the YYYY-MM-DD portion
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      // We need to account for timezone shifts when parsing YYYY-MM-DD
+      const selectedDateLocal = new Date(selectedDate.getTime() + selectedDate.getTimezoneOffset() * 60000);
+      selectedDateLocal.setHours(0, 0, 0, 0);
+
+      if (selectedDateLocal > today) {
+        newErrors.date = "Expense date cannot be in the future";
+      }
     }
 
     setErrors(newErrors);
