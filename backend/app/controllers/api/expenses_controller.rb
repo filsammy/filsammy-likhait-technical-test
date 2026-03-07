@@ -1,6 +1,7 @@
 class Api::ExpensesController < ApplicationController
   def index
-    expenses = Expense.includes(:category).order(created_at: :desc)
+    # Change the ordering from created_at to the NEW date column
+    expenses = Expense.includes(:category).order(date: :desc, created_at: :desc)
 
     if params[:year].present? && params[:month].present?
       year = params[:year].to_i
@@ -9,14 +10,16 @@ class Api::ExpensesController < ApplicationController
       start_date = Date.new(year, month, 1)
       end_date = start_date.end_of_month
 
-      expenses = expenses.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+      # Filter by the 'date' column, not 'created_at'
+      expenses = expenses.where(date: start_date..end_date)
     end
 
     render json: expenses.map { |expense| format_expense(expense) }
   end
 
   def create
-    expense = Expense.new(expense_params)
+    # We take the params and merge in a default payer_name to satisfy the database constraint.
+    expense = Expense.new(expense_params.merge(payer_name: "Fil Sammy"))
 
     if expense.save
       render json: format_expense(expense), status: :created
@@ -53,7 +56,7 @@ class Api::ExpensesController < ApplicationController
       description: expense.description,
       amount: expense.amount.to_f,
       category: expense.category&.name, # Safe navigation operator
-      date: expense.created_at.to_date.to_s, # Use created_at instead of date
+      date: expense.date.to_s, # Returns the real date column now
       created_at: expense.created_at,
       updated_at: expense.updated_at
     }
